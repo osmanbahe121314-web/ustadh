@@ -10,9 +10,11 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
+          flutter-version: '3.22.0'
       - run: flutter config --enable-web
+      - run: flutter create . --platforms=web
       - run: flutter pub get
-      - run: flutter build web --base-href /ustadh/
+      - run: flutter build web --base-href /ustadh/ --release
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
