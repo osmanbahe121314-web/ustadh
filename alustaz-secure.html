@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الاستاذ | سحابة العدالة - التنقل شغال</title>
+<style>
+*{box-sizing:border-box;font-family:'Segoe UI',Tahoma}body{margin:0;background:#f1f3f6}
+header{background:#0b2a5b;padding:18px;text-align:center;color:#fff;border-bottom:5px solid #facc15}
+header h1{margin:0;font-size:26px}header h1 span{color:#facc15}header p{font-size:12px;color:#cbd5e1}
+.card{background:#fff;margin:14px;padding:18px;border-radius:12px;box-shadow:0 2px 10px #e0e0e0;border-top:4px solid #0b2a5b}
+.card h3{margin:0 0 12px;color:#0b2a5b;border-bottom:2px solid #facc15;display:inline-block;padding-bottom:6px}
+input,select,textarea{width:100%;padding:13px;margin:7px 0;border-radius:8px;border:1px solid #cbd5e1;font-size:14px}
+.btn{background:#0b2a5b;color:#fff;padding:14px;border:0;border-radius:8px;width:100%;font-weight:bold;margin-top:8px;cursor:pointer}
+.btnRed{background:#c81e1e;color:#fff;padding:13px;border:0;border-radius:8px;width:100%;margin-top:6px;font-weight:bold;cursor:pointer}
+.btnBlue{background:#1d4ed8;color:#fff;padding:12px;border:0;border-radius:8px;width:100%;margin-top:6px;font-weight:bold;cursor:pointer}
+.btnYellow{background:#facc15;color:#000;padding:12px;border:0;border-radius:8px;width:100%;margin-top:6px;font-weight:bold;cursor:pointer}
+.btnBack{background:#e5e7eb;color:#111;padding:12px;border:0;border-radius:8px;width:100%;margin-top:6px;font-weight:bold;cursor:pointer}
+.notice{background:#fefce8;padding:12px;border-radius:10px;border:1px solid #facc15;margin:10px 0}
+.banner{background:#0b2a5b;color:#fff;margin:14px;padding:16px;border-radius:12px;text-align:center;border-bottom:4px solid #facc15}.banner b{color:#facc15}
+.contractPaper{background:#fffdf5;border:2px solid #0b2a5b;padding:16px;border-radius:10px;margin-top:10px;line-height:1.9}.contractPaper h4{text-align:center;color:#0b2a5b;border-bottom:2px solid #facc15}
+.sig{display:flex;gap:10px}.sig div{flex:1;border:1px dashed #0b2a5b;padding:10px;text-align:center;border-radius:8px}
+.receiptBox{background:#0b2a5b;color:#fff;padding:16px;border-radius:10px;text-align:center;margin-top:10px;border:3px dashed #facc15}.receiptBox b{color:#facc15;font-size:22px}
+.approveBox{background:#fefce8;border:2px solid #facc15;padding:14px;border-radius:10px;margin-top:10px}
+.counterBox{background:#fff;padding:12px;border-radius:10px;border:2px solid #0b2a5b;text-align:center;margin:14px;font-weight:bold;color:#0b2a5b}.counterBox b{color:#c81e1e;font-size:20px}
+.pendingBox{background:#fefce8;border:2px solid #facc15;padding:14px;border-radius:10px;margin:10px 0}
+.liveBox{background:#dcfce7;border:2px solid #16a34a;padding:10px;border-radius:10px;margin:10px 0;text-align:center;font-weight:bold;color:#14532d}
+.navBtn{flex:1;padding:15px 4px;border-radius:10px;font-weight:bold;font-size:14px;border:0;cursor:pointer}
+.navBtn.active{background:#0b2a5b!important;color:#fff!important;border:2px solid #0b2a5b!important}
+.page{display:none}.page.show{display:block}
+.wallet{background:#0b2a5b;color:#fff;padding:16px;border-radius:10px;text-align:center;font-weight:bold;line-height:1.8}.wallet span{color:#facc15}
+.adminControl{background:#0b2a5b;color:#fff;padding:16px;border-radius:10px;margin-top:10px;border-bottom:4px solid #facc15}.adminControl b{color:#facc15}
+</style>
+</head>
+<body>
+<header><h1>الاستاذ <span>|</span> سحابة العدالة ☁️</h1><p>التنقل شغال ✅ - تخش براك انت بس</p></header>
+<div style="background:#fff;padding:10px 14px;display:flex;justify-content:space-between;font-size:12px;color:#0b2a5b;font-weight:bold"><span>☁️ شغال في السحابة - كل السودان</span><span>المدير: osmanbahe121314@gmail.com</span></div>
+<div class="banner"><b>☁️ التنقل رجع شغال ✅</b><br>دوس أي زر فوق - بتتنقل طوالي</div>
+<div class="liveBox">☁️ شغال في السحابة - Netlify - التنقل مضمون</div>
+<div class="counterBox">آخر رقم إيصال: <b id="counterShow">ALUSTAZ-0000</b><br><small>من السحابة - ما بيتكرر</small></div>
+
+<!-- التنقل - 4 أزرار - شغالة طوالي -->
+<div style="display:flex;gap:8px;padding:12px;background:#fff;box-shadow:0 2px 8px #ddd;position:sticky;top:0;z-index:99">
+<button id="btn-client" class="navBtn active" style="background:#0b2a5b;color:#fff" onclick="go('client')">👤 عميل</button>
+<button id="btn-lawyer" class="navBtn" style="background:#fff;color:#0b2a5b;border:2px solid #0b2a5b" onclick="go('lawyer')">⚖️ محامي</button>
+<button id="btn-notary" class="navBtn" style="background:#fff;color:#0b2a5b;border:2px solid #0b2a5b" onclick="go('notary')">📜 موثق</button>
+<button id="btn-adminLogin" class="navBtn" style="background:#c81e1e;color:#fff" onclick="go('adminLogin')">🛡️ إدارة المدير</button>
+</div>
+
+<div id="page-client" class="page show">
+<div class="card"><h3>تسجيل العميل</h3>
+<input id="cName" placeholder="الاسم الكامل"><input id="cPhone" placeholder="رقم الهاتف - واتساب"><input id="cEmail" type="email" placeholder="البريد الإلكتروني">
+<select id="cCity"><option>الخرطوم</option><option>أمدرمان</option><option>بحري</option><option>مدني - الجزيرة</option><option>بورتسودان</option><option>كسلا</option><option>القضارف</option><option>الأبيض</option><option>نيالا</option><option>الفاشر</option><option>سنار</option><option>كوستي</option><option>الدمازين</option><option>دنقلا</option><option>عطبرة</option><option>أخرى</option></select>
+<select id="courtClient"><option>الخرطوم</option><option>أمدرمان</option><option>بحري</option><option>مدني</option><option>بورتسودان</option><option>كسلا</option><option>القضارف</option><option>الأبيض</option><option>نيالا</option><option>الفاشر</option><option>سنار</option><option>كوستي</option><option>الدمازين</option><option>دنقلا</option><option>عطبرة</option></select>
+<button class="btn" onclick="saveClient()">تسجيل - يصل للمدير</button><p id="savedClient"></p></div>
+<div class="card"><h3>اطلب محامي - التعيين من المدير فقط</h3>
+<div class="notice"><b>تنبيه:</b> العميل ما بيختار محامي. المدير هو البيعين ليك.</div>
+<select id="court"><option>الخرطوم</option><option>أمدرمان</option><option>بحري</option><option>مدني</option><option>بورتسودان</option><option>كسلا</option><option>القضارف</option><option>الأبيض</option><option>نيالا</option><option>الفاشر</option><option>سنار</option><option>كوستي</option><option>الدمازين</option><option>دنقلا</option><option>عطبرة</option></select>
+<select id="spec"><option>جنائي</option><option>شرعي</option><option>مدني</option><option>تجاري</option><option>أحوال شخصية</option><option>موثق معتمد</option></select>
+<button class="btnBlue" onclick="requestLawyer()">طلب محامي</button><div id="lawyers"></div></div>
+<div class="card" style="border-top:6px solid #c81e1e"><h3>عقد - بإشراف الاستاذ</h3>
+<input id="kClient" placeholder="اسم العميل الكامل"><input id="kClientNid" placeholder="الرقم الوطني">
+<select id="kType"><option>قضية محكمة</option><option>استشارة قانونية</option><option>تسجيل شركة</option><option>توثيق عقد</option><option>توثيق قسيمة</option><option>تسجيل اسم عمل</option><option>صياغة عقد</option></select>
+<textarea id="kDetails" placeholder="اكتب تفاصيل القضية"></textarea>
+<select id="kCourt"><option>الخرطوم</option><option>أمدرمان</option><option>بحري</option><option>مدني</option><option>بورتسودان</option><option>كسلا</option><option>القضارف</option><option>الأبيض</option><option>نيالا</option><option>الفاشر</option><option>سنار</option><option>كوستي</option><option>الدمازين</option><option>دنقلا</option><option>عطبرة</option></select>
+<input id="kAmount" type="number" placeholder="قيمة الأتعاب - مثال: 60000" oninput="calcContract()"><p id="kCalc">المحامي 75% - الاستاذ 25%</p>
+<input id="kEmail" type="email" placeholder="بريد العميل">
+<select id="kDuration"><option>حتى انتهاء القضية</option><option>شهر واحد</option><option>3 شهور</option><option>6 شهور</option><option>سنة</option></select>
+<button class="btnRed" onclick="makeContract()">عرض العقد</button><div id="contractPaperBox"></div>
+<div class="approveBox"><h4>الموافقة برقم الإيصال</h4><input id="receiptInput" placeholder="اكتب رقم الإيصال - مثال ALUSTAZ-0001"><button class="btn" onclick="approveByReceipt('client')">أنا العميل - أوافق بالرقم دا</button><button class="btnBlue" onclick="approveByReceipt('lawyer')">أنا المحامي المعين - أوافق بالرقم دا</button><div id="approveMsg"></div><div id="receiptShow"></div></div></div>
+<div class="card"><h3>الخدمات</h3>
+<select id="service" onchange="showService()"><option value="شركة">تسجيل شركة - 50,000 + رسوم القيمة</option><option value="قسيمة">توثيق قسيمة - 30,000</option><option value="عمل">تسجيل اسم عمل - 20,000</option><option value="صياغة">صياغة عقود - 25,000</option></select>
+<div id="box-شركة"><input placeholder="اسم الشركة"><input id="compValue" type="number" placeholder="قيمة الشركة" oninput="calcCompany()"><p id="compCalc">أتعاب التسجيل: 50,000 | المحامي 37,500 - الاستاذ 12,500</p></div>
+<div id="box-قسيمة" style="display:none"><select><option>قسيمة زواج</option><option>قسيمة طلاق</option><option>قسيمة ميلاد</option><option>قسيمة وفاة</option></select><input placeholder="الطرف الأول"><input placeholder="الطرف الثاني"><p>30,000 | محامي 22,500 - الاستاذ 7,500</p></div>
+<div id="box-عمل" style="display:none"><input placeholder="اسم العمل"><input placeholder="نوع النشاط"><p>20,000 | محامي 15,000 - الاستاذ 5,000</p></div>
+<div id="box-صياغة" style="display:none"><textarea placeholder="اكتب العقد"></textarea><p>25,000 | محامي 18,750 - الاستاذ 6,250</p></div>
+<button class="btn" onclick="pay()">دفع بنكك - إيصال من السحابة</button><div id="receipt"></div></div>
+<div class="card" style="border-top:4px solid #c81e1e"><h3>توثيق العقود</h3>
+<select id="contractType"><option>عقد بيع - عقار / سيارة / أرض</option><option>عقد إيجار - منزل / متجر / مكتب</option><option>عقد اتفاق بين طرفين</option><option>عقد شراكة</option><option>عقد قسمة / تنازل</option><option>توكيل عام / خاص</option></select>
+<input placeholder="اسم الطرف الأول"><input placeholder="الرقم الوطني للطرف الأول"><input placeholder="اسم الطرف الثاني"><input placeholder="الرقم الوطني للطرف الثاني"><input id="contractValue" type="number" placeholder="قيمة العقد - مثال: 10,000,000">
+<p>توثيق العقد: 25,000 ثابت | إذا كانت قيمة العقد كبيرة: 25,000 + 1% | المحامي 75% - الاستاذ 25%</p>
+<button class="btn" onclick="payContract()">دفع توثيق العقد - إيصال من السحابة</button><div id="contractReceipt"></div></div>
+</div>
+
+<div id="page-lawyer" class="page">
+<div class="card"><h3>تسجيل المحامي - للمدير فقط</h3><div class="notice"><b>تنبيه:</b> تسجيلك ما بيظهر للعميل. بيمشي للمدير فقط، والمدير هو البيوافق عليك.</div>
+<input id="lawName" placeholder="الاسم"><input id="lawPhone" placeholder="رقم الهاتف"><input id="lawEmail" type="email" placeholder="البريد الإلكتروني"><input id="lawBar" placeholder="رقم قيد المحاماة">
+<select id="lawCity"><option>الخرطوم</option><option>أمدرمان</option><option>بحري</option><option>مدني</option><option>بورتسودان</option><option>كسلا</option><option>القضارف</option><option>الأبيض</option><option>نيالا</option><option>الفاشر</option><option>سنار</option><option>كوستي</option><option>الدمازين</option><option>دنقلا</option><option>عطبرة</option></select>
+<select id="lawCourt"><option>الخرطوم</option><option>أمدرمان</option><option>بحري</option><option>مدني</option><option>بورتسودان</option><option>كسلا</option><option>القضارف</option><option>الأبيض</option><option>نيالا</option><option>الفاشر</option><option>سنار</option><option>كوستي</option><option>الدمازين</option><option>دنقلا</option><option>عطبرة</option></select>
+<input id="lawSpec" placeholder="التخصص"><button class="btn" onclick="sendLawyerToAdmin()">إرسال للمدير</button><div id="lawyerSent"></div></div>
+<div class="card"><h3>عقدي مع العميل</h3><input id="lawyerReceipt" placeholder="رقم الإيصال - مثال ALUSTAZ-0001"><button class="btnBlue" onclick="lawyerApprove()">أوافق على العقد برقم الإيصال دا</button><div id="lawyerApproveMsg"></div></div>
+<div class="card"><h3>محفظتي</h3><div class="wallet">اشتغلت: 60,000 | نصيبي 75% = <span>45,000</span><br>استلمت: 30,000 | المتبقي: <span>15,000 بانتظار اعتماد المدير</span></div><button class="btnBlue" onclick="alert('تم طلب السحب - المدير هو البيوافق ويحول')">طلب سحب - بموافقة المدير</button></div>
+<button class="btnBack" onclick="go('client')">⬅️ رجوع لقسم العميل</button>
+</div>
+
+<div id="page-notary" class="page">
+<div class="card"><h3>قسم المحامي الموثق - معتمد من المدير</h3><div style="border:1px solid #0b2a5b;background:#f8f9fa;padding:14px;border-radius:10px"><b>محامي موثق معتمد</b><br><small>يتم تعيين الموثق من قبل المدير فقط.</small><br><p>توثيق عقد: 25,000 | توثيق قسيمة: 30,000 | توكيل: 20,000</p><button class="btnBlue" onclick="requestLawyer()">طلب موثق معتمد - من المدير</button></div></div>
+<button class="btnBack" onclick="go('client')">⬅️ رجوع لقسم العميل</button>
+</div>
+
+<div id="page-adminLogin" class="page">
+<div style="background:#fff;max-width:420px;padding:28px;border-radius:14px;text-align:center;margin:14px auto;box-shadow:0 4px 20px #ccc;border-top:6px solid #c81e1e"><div style="font-size:55px">🔒</div><h2 style="color:#0b2a5b">دخول المدير - آمن</h2><p style="color:#c81e1e;font-weight:bold">للأستاذ عثمان فقط<br>osmanbahe121314@gmail.com</p>
+<div style="border:2px solid #ddd;padding:16px;border-radius:10px;background:#fff;margin-top:12px"><p><b>دخولك براك - إيميل + كلمة سر</b></p><input id="secureEmail" type="email" placeholder="اكتب إيميلك: osmanbahe121314@gmail.com"><input id="securePass" type="password" placeholder="اكتب كلمة السر"><button class="btn" onclick="secureLogin()">دخول آمن - أنا عثمان</button><p style="font-size:12px">الإيميل: <b>osmanbahe121314@gmail.com</b><br>كلمة السر: <b>Alustaz123</b></p></div>
+<div id="secureMsg" style="margin-top:10px;font-weight:bold;color:#c81e1e"></div>
+<button class="btnBack" onclick="go('client')">⬅️ رجوع للعميل والمحامي</button></div>
+</div>
+
+<div id="page-admin" class="page">
+<div class="card"><h3>لوحة إدارة الاستاذ 👑☁️</h3><p>مرحباً يا أستاذ عثمان ✅<br><b id="adminGoogleEmail">osmanbahe121314@gmail.com</b><br><b style="color:#c81e1e">انت البتشوف - وانت البتعين - وانت البتشيل</b></p><button class="btnBack" onclick="go('client')">⬅️ رجوع للعميل والمحامي</button>
+<div class="adminControl"><b>تحكمك الكامل:</b><br>1- تشوف أي محامي سجل<br>2- توافق عليهو أو ترفضو<br>3- تعينو للعميل البتختارو انت<br>4- تشيلو وتشطبو لو ما عجبك<br>5- تحدد السعر وتنزل القروش</div>
+<div class="card" style="background:#fefce8"><h3>1- المحامين الجدد</h3><div id="adminLawyersList"><div class="pendingBox"><b>لا يوجد محامي جديد الآن - المحامي البسجل بيظهر هنا</b></div></div></div>
+<div class="card" style="background:#fefce8"><h3>2- العملاء الجدد</h3><div id="adminClientsList"><div class="pendingBox"><b>لا يوجد عميل جديد الآن</b></div></div>
+<input id="adminChooseLawyer" placeholder="اسم المحامي البتختارو انت">
+<input id="adminChooseClient" placeholder="تعيينو لأي عميل؟">
+<select id="adminCourt"><option>الخرطوم</option><option>أمدرمان</option><option>بحري</option><option>مدني</option><option>بورتسودان</option><option>كسلا</option><option>القضارف</option><option>الأبيض</option><option>نيالا</option><option>الفاشر</option><option>سنار</option><option>كوستي</option><option>الدمازين</option><option>دنقلا</option><option>عطبرة</option></select>
+<button class="btnYellow" onclick="assignLawyer()">تعيين المحامي دا للعميل دا - بمزاجي أنا</button><div id="assignMsg"></div></div>
+<div class="counterBox">عدد الإيصالات: <b id="adminCounter">0</b><br>آخر رقم: <b id="adminReceiptShow">ALUSTAZ-0000</b><br>الجاي: <b id="adminNext">ALUSTAZ-0001</b></div>
+<div class="card" style="background:#fefce8"><h3>3- التعيينات</h3><div id="adminAssignments"><b>لا يوجد تعيين بعد</b></div></div>
+<div class="card"><h4>تحكمك في القروش والجلسات</h4><input id="adminPrice" type="number" placeholder="سعر الخدمة - انت البتحددو"><button class="btnBlue" onclick="alert('تم الاعتماد - مبلغ الجلسة تم تنزيله - بموافقتي أنا')">اعتماد + تنزيل مبلغ الجلسة - أنا وافقت</button><button class="btn" onclick="alert('تم التحويل بنكك للمحامي - مني أنا')">تم التحويل بنكك - مني أنا</button><h4>عقوبة - انت البتقرر</h4><select id="adminPenalty"><option>تحذير</option><option>إيقاف أسبوع</option><option>شطب نهائي</option></select><button class="btnRed" onclick="applyPenalty()">تطبيق العقوبة - أنا قررت</button></div>
+<button class="btnRed" onclick="logoutAdmin()">خروج من حساب المدير 🔒</button>
+</div>
+</div>
+
+<script>
+// ===== التنقل - مضمون - بسيط - ما بيقيف =====
+function go(name){
+  var pages = ['client','lawyer','notary','adminLogin','admin'];
+  for(var i=0;i<pages.length;i++){
+    var p = document.getElementById('page-'+pages[i]);
+    if(p){ p.classList.remove('show'); p.style.display='none'; }
+    var b = document.getElementById('btn-'+pages[i]);
+    if(b){ b.classList.remove('active'); }
+  }
+  var t = document.getElementById('page-'+name);
+  if(t){ t.classList.add('show'); t.style.display='block'; }
+  var btn = document.getElementById('btn-'+name);
+  if(btn){ btn.classList.add('active'); }
+  if(name==='adminLogin'){ var b2=document.getElementById('btn-adminLogin'); if(b2) b2.classList.add('active'); }
+  window.scrollTo(0,0);
+}
+// عشان لو أي كود قديم بينادي showPage - خليهو شغال برضو
+function showPage(name){ go(name); }
+
+var OWNER_EMAIL="osmanbahe121314@gmail.com";
+var OWNER_PASS="Alustaz123";
+var receiptCounter=Number(localStorage.getItem("receiptCounter")||0);
+var lastReceipt=localStorage.getItem("lastReceipt")||"";
+var clientApproved=false; var lawyerApproved=false;
+var allLawyers=[]; var allClients=[]; var allAssign=[];
+
+function formatReceipt(n){var s=""+n;while(s.length<4){s="0"+s;}return "ALUSTAZ-"+s;}
+function updateCounterShow(){
+  var cur=lastReceipt||"ALUSTAZ-0000"; var next=formatReceipt(receiptCounter+1);
+  var a=document.getElementById('counterShow'); if(a) a.innerText=cur;
+  var b=document.getElementById('adminCounter'); if(b) b.innerText=receiptCounter;
+  var c=document.getElementById('adminReceiptShow'); if(c) c.innerText=cur;
+  var d=document.getElementById('adminNext'); if(d) d.innerText=next;
+}
+function secureLogin(){
+  var em=document.getElementById('secureEmail').value.toLowerCase().trim();
+  var ps=document.getElementById('securePass').value;
+  if(em===OWNER_EMAIL && ps===OWNER_PASS){
+    localStorage.setItem('alustaz_admin','yes');
+    go('admin');
+    alert('مرحباً يا أستاذ عثمان ✅ - دخلت براك');
+  }else{
+    document.getElementById('secureMsg').innerHTML="❌ غلط - الإيميل لازم يكون حسابك انت بس<br>osmanbahe121314@gmail.com";
+    alert('❌ غلط - الإيميل لازم يكون حسابك انت بس');
+  }
+}
+function logoutAdmin(){ localStorage.removeItem('alustaz_admin'); go('adminLogin'); alert('تم الخروج - اللوحة اتقفلت 🔒'); }
+function saveClient(){
+  var n=document.getElementById('cName').value; var ph=document.getElementById('cPhone').value;
+  var city=document.getElementById('cCity').value; var court=document.getElementById('courtClient').value;
+  if(!n){alert('اكتب اسمك');return;}
+  allClients.push({name:n,phone:ph,city:city,court:court});
+  localStorage.setItem('myClientName',n);
+  document.getElementById('savedClient').innerHTML="تم الحفظ: "+n+" | من: "+city+" | ✅ وصل للمدير";
+  renderAdmin();
+  alert('أهلاً بك - طلبك وصل للمدير');
+}
+function sendLawyerToAdmin(){
+  var n=document.getElementById('lawName').value; var city=document.getElementById('lawCity').value;
+  var court=document.getElementById('lawCourt').value; var spec=document.getElementById('lawSpec').value||'عام';
+  var phone=document.getElementById('lawPhone').value;
+  if(!n){alert('اكتب اسمك');return;}
+  allLawyers.push({name:n,phone:phone,city:city,court:court,spec:spec});
+  document.getElementById('lawyerSent').innerHTML="<b>تم إرسال طلبك للمدير ✅ - المدير هو البيوافق عليك</b>";
+  renderAdmin();
+  alert('تم إرسال طلبك للمدير');
+}
+function requestLawyer(){
+  var court=document.getElementById('court').value; var spec=document.getElementById('spec').value;
+  document.getElementById('lawyers').innerHTML='<div style="background:#f8f9fa;padding:14px;border-radius:10p

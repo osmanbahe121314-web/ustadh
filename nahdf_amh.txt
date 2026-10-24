@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نهضة الأمة</title>
+<style>
+body{font-family:Tahoma;background:#020617;color:#fff;margin:0;padding:6px}
+.box{background:#1e293b;border-radius:12px;padding:10px;margin:6px;border:1px solid #334155}
+button{background:#22c55e;color:#000;border:0;padding:7px 11px;border-radius:7px;font-weight:bold;margin:3px;cursor:pointer;font-size:11px}
+button:disabled{background:#444;color:#888}
+button.wrong{background:#334155;color:#fff;width:95%;text-align:right;padding:8px;margin:4px 0}
+button.war{background:#ef4444;color:#fff}
+button.join{background:#fbbf24;color:#000}
+.q{color:#fbbf24;font-weight:bold;font-size:13px}
+.bar{height:12px;background:#222;border-radius:6px;overflow:hidden;margin-top:3px}
+.fill{height:100%}
+#log{height:120px;overflow:auto;background:#000;font-size:11px;padding:6px;border-radius:8px;border:1px solid #333}
+.nav{display:flex;flex-wrap:wrap;justify-content:center;background:#000;padding:6px;border-radius:10px;font-size:9px;gap:3px}
+.nav .active{background:#22c55e;color:#000;padding:4px 7px;border-radius:6px;font-weight:bold}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:11px}
+.detail{background:#020617;border-right:4px solid #22c55e;padding:7px;margin:5px 0;border-radius:6px;font-size:11px}
+.detail.red{border-color:#ef4444;background:#1a0000}
+.detail.gold{border-color:#fbbf24;background:#1a1600}
+.enemyBox{display:inline-block;width:138px;margin:4px;padding:7px;border-radius:10px;background:#1a0000;border:2px solid #ef4444;text-align:center;font-size:11px}
+.nasheed{background:#000;border:2px solid #22c55e;border-radius:10px;padding:10px;margin:8px 0;text-align:center;color:#22c55e;font-weight:bold}
+@keyframes pulse{0%{opacity:0.8}50%{opacity:1}100%{opacity:0.8}}
+</style>
+</head>
+<body>
+<h1 style="text-align:center;color:#22c55e;margin:6px">🕌 نهضة الأمة</h1>
+<p style="text-align:center;font-size:10px;color:#aaa;margin:0">البطل: العالم سليمان - من باحث حديث إلى قائد الأمة - بدون موسيقى</p>
+<div class="nav">
+<span id="n0">0 بحث</span><span id="n1">1 انتشار</span><span id="n1_5">1.5 مجتمع</span><span id="n2">2 مناظرة</span><span id="n3">2.5 سجن وعفو</span><span id="n4">3 تحرير دول</span><span id="n5">4 حرب مراحل</span>
+</div>
+<div class="box">البطل: العالم سليمان | علم: <span id="ilm">0</span>% | أتباع: <span id="followers">0</span> | حجة: <span id="hujja">0</span> | شعبية: <span id="shaabia">0</span>% | إيمان: <span id="iman">30</span>% | قوة: <span id="power">100</span></div>
+<div id="gameArea" class="box"></div>
+<div id="log" class="box"></div>
+<script>
+let heroName="العالم سليمان";
+let ilm=0,followers=0,hujja=0,iman=30,shaabia=0,stage=0,debateIndex=0,myPower=100,turn=1,jailPressure=0,failedAttempts=0;
+let worldSpread={"🇸🇩 السودان":0,"🇪🇬 مصر":0,"🇸🇦 السعودية":0,"🇹🇷 تركيا":5,"🇺🇸 أمريكا":0,"🇬🇧 بريطانيا":0,"🇮🇱 إسرائيل":0,"🌐 الإنترنت":10};
+let societyStats={prayer:55,alcohol:25,parties:35,mixing:40,drugs:20,takaful:35,marriage:40};
+let hadithBooks=[{name:"صحيح البخاري",read:0,ilm:20},{name:"صحيح مسلم",read:0,ilm:20},{name:"موطأ مالك",read:0,ilm:15},{name:"سنن الترمذي",read:0,ilm:10},{name:"كتب ابن تيمية",read:0,ilm:15}];
+let hadithSheikhs=[{name:"شيخ أم درمان - البخاري",found:false,listened:0,lesson:"البخاري مسند"},{name:"شيخ الخرطوم - مسلم",found:false,listened:0,lesson:"مسلم مع الشرح"},{name:"شيخ مدني - الموطأ",found:false,listened:0,lesson:"موطأ مالك"},{name:"دروس الإنترنت - ابن باز",found:false,listened:0,lesson:"شروح ابن باز وعثيمين"}];
+let debates=[
+{q:"المدخلي: لا يجوز الإنكار العلني مطلقا",opts:["أوافقه","أرد: أبو سعيد أنكر على مروان علنا - مسلم 2055","فتنة"],c:1,d:"أبو سعيد أنكر علنا - واجب - ابن باز 8/210"},
+{q:"النصيحة وإنكار المنكر واحد كله سر",opts:["واحد","فرق: النصيحة سرا أما المنكر الظاهر كالخمور في الشوارع علنا - ابن عثيمين","أترك"],c:1,d:"فرق: عيب الحاكم سرا، منكر ظاهر علنا"},
+{q:"لا يرد على الحاكم على المنبر",opts:["صحيح","خطأ: امرأة ردت على عمر على المنبر في المهور - البيهقي","أطردها"],c:1,d:"عمر وردت عليه ولم ينكر الصحابة"},
+{q:"الإنكار فتنة دائما",opts:["نترك","المصلحة: عبادة أنكر على معاوية علنا - مسلم - ابن تيمية ينظر للمصالح","نسكت"],c:1,d:"4 مراتب عند ابن القيم"}
+];
+let islamicCountries=[
+{name:"🇸🇩 السودان",inf:100,detail:"صراع الكيزان والعلمانيين - الشعب يختار الإسلام النقي - محاسبة الحرامية فقط (40%) من الكيزان وترك الصالحين (60%) - عدل لا ظلم",freed:false,factions:{kizanThieves:40,kizanGood:60,almaniyin:30,islamChoice:0}},
+{name:"🇪🇬 مصر",inf:100,detail:"60 ألف سجين، الأزهر مكمم - التحرير: مظاهرات مليونية من الأزهر، إضراب قضاة، الجيش ينحاز بعد ضغط 90%، إطلاق شيوخ",freed:false},
+{name:"🇸🇦 السعودية",inf:100,detail:"هيئة الترفيه وحفلات - التحرير: علماء الحرمين يعلنون الإنكار، مقاطعة موسم الرياض، عودة الأمر بالمعروف",freed:false},
+{name:"🇹🇷 تركيا",inf:100,detail:"علمانية أتاتورك - التحرير: إلغاء العلمانية، آيا صوفيا مسجد كامل، إغلاق بيوت دعارة مرخصة",freed:false},
+{name:"🇵🇰 باكستان",inf:100,detail:"جيش يتحكم - التحرير: الشعب ضد نفوذ الجيش، تطبيق الحدود بعد 70 سنة",freed:false},
+{name:"🇮🇩 إندونيسيا",inf:100,detail:"دولة إسلامية - التحرير: 200 مليون يخرجون، ترجمة كتب العالم سليمان",freed:false}
+];
+let enemies=[{id:1,name:"🇺🇸 أمريكا",power:800,dead:false,detail:"قواعد في الخليج"},{id:2,name:"🇨🇳 الصين",power:700,dead:false,detail:"تضطهد الإيغور"},{id:3,name:"🇷🇺 روسيا",power:650,dead:false,detail:"تدعم بشار"},{id:4,name:"🇮🇱 إسرائيل",power:500,dead:false,detail:"تحتل الأقصى"}];
+let warPhases={phase:0,mobilization:0,joinedCountries:[],currentEnemy:0,muslimPower:100,logStory:[]};
+function log(m){let l=document.getElementById('log');l.innerHTML='<div>'+m+'</div>'+l.innerHTML;}
+function render(){
+document.getElementById('ilm').innerText=ilm;document.getElementById('followers').innerText=followers;document.getElementById('hujja').innerText=hujja;document.getElementById('shaabia').innerText=shaabia;document.getElementById('iman').innerText=iman;document.getElementById('power').innerText=warPhases.muslimPower;
+[0,1,1.5,2,3,4,5].forEach(v=>{let id='n'+String(v).replace('.','_');let el=document.getElementById(id);if(el)el.className=stage==v?'active':''});
+let a=document.getElementById('gameArea');
+if(stage==0){
+let html=`<div class=q>المرحلة 0: ${heroName} يبحث عن شيوخ الحديث ويسمع الدروس ويقرأ الكتب - يروح بيته عادي</div><div>علم سليمان: ${ilm}%<div class=bar><div class=fill style="width:${ilm}%;background:#22c55e"></div></div></div><b>🔍 البحث:</b><br>`;
+hadithSheikhs.forEach((s,i)=>{html+=`<div class=detail><span>${s.found?'✅':'❓'} ${s.name}<br><small>${s.lesson} - ${s.listened} مرة</small></span><br>${!s.found?`<button onclick="searchSheikh(${i})">🔍 ابحث في المساجد</button>`:`<button onclick="listenSheikh(${i})">🎧 استمع (+5) ثم ارجع البيت</button>`}</div>`;});
+html+=`<b>📚 قراءة في البيت مع شاي:</b><br>`;
+hadithBooks.forEach((b,i)=>{html+=`<div class=detail><span>📖 ${b.name} ${b.read}%<div class=bar style="width:80px"><div class=fill style="width:${b.read}%;background:#22c55e"></div></div></span><br><button onclick="readBook(${i})" ${b.read>=100?'disabled':''}>اقرأ 25%</button></div>`;});
+html+=`<div class=detail style="border-color:#fbbf24">🏠 يوميات سليمان: يصحى يمشي حلقة، يرجع يتغدا مع أهله، العصر درس شيخ، المغرب يراجع كتاب مع شاي</div><button onclick="if(ilm>=85){stage=1;followers=10;log('أصبح العالم سليمان عالم حديث! 10 طلاب');render()}else log('تحتاج 85%')" class=join>➡️ أصبح شيخ (85%)</button>`;
+a.innerHTML=html;
+}
+else if(stage==1){
+let total=Object.values(worldSpread).reduce((a,b)=>a+b,0);let spread=Math.min(100,total/20);
+let html=`<div class=q>المرحلة 1: 10 طلاب للعالم سليمان يزيدون في كل مكان حتى الدول العدوة</div><div>أتباع سليمان: ${followers} انتشار: ${spread}%<div class=bar><div class=fill style="width:${spread}%;background:#22c55e"></div></div></div><div class=grid>`;
+for(let c in worldSpread){let co=worldSpread[c];let col=c.includes('أمريكا')||c.includes('إسرائيل')?'#ef4444':'#22c55e'; html+=`<div class=detail style="border-color:${col}"><b>${c}</b><br>${co>0?`👂 ${co} مستمع لسليمان`:''}<div class=bar><div class=fill style="width:${Math.min(100,co*2)}%;background:${col}"></div></div></div>`;}
+html+=`</div><div><button onclick="spreadDawah('local')">📖 درس أم درمان (+50)</button><button onclick="spreadDawah('arab')">🌍 بث للعرب (+20)</button><button onclick="spreadDawah('internet')">🌐 يوتيوب مليون (+100)</button><button onclick="spreadDawah('enemy')">😱 وصل لأمريكا وإسرائيل سرا (+5)</button></div>`;
+if(spread>=40) html+=`<div class=detail gold>🎉 دروس سليمان انتشرت حتى في دول العدو!</div>`;
+html+=`<button onclick="if(followers>=800 && spread>=40){stage=1.5;log('انتشار عالمي للعالم سليمان');render()}else log('800 و 40%')" class=join>➡️ إصلاح المجتمع</button>`;
+a.innerHTML=html;
+}
+else if(stage==1.5){
+let s=societyStats;let ideal=(s.prayer+(100-s.alcohol)+(100-s.parties)+(100-s.mixing)+(100-s.drugs)+s.takaful+s.marriage)/7;
+a.innerHTML=`<div class=q>المرحلة 1.5: تدين الشعب بعد اتباع العالم سليمان - من وسط إلى مثالي</div><div>قبل: وسط 55% صلاة 25% خمور - بعد سليمان: مثالي يترك حفلات واختلاط وخمور ومخدرات</div>
+<div class=grid>
+<div>🕌 صلاة ${s.prayer}%<div class=bar><div class=fill style="width:${s.prayer}%;background:#22c55e"></div></div></div>
+<div>🍺 خمور ${s.alcohol}%<div class=bar><div class=fill style="width:${s.alcohol}%;background:#ef4444"></div></div></div>
+<div>🎉 حفلات ${s.parties}%<div class=bar><div class=fill style="width:${s.parties}%;background:#ef4444"></div></div></div>
+<div>👫 اختلاط ${s.mixing}%<div class=bar><div class=fill style="width:${s.mixing}%;background:#ef4444"></div></div></div>
+<div>💊 مخدرات ${s.drugs}%<div class=bar><div class=fill style="width:${s.drugs}%;background:#ef4444"></div></div></div>
+<div>🤝 تكافل ${s.takaful}%<div class=bar><div class=fill style="width:${s.takaful}%;background:#22c55e"></div></div></div>
+<div>💍 زواج ${s.marriage}%<div class=bar><div class=fill style="width:${s.marriage}%;background:#22c55e"></div></div></div>
+<div>⭐ مثالية ${Math.floor(ideal)}%<div class=bar><div class=fill style="width:${ideal}%;background:#fbbf24"></div></div></div>
+</div>
+<div><button onclick="doIslah('dawah')">📖 فجر</button><button onclick="doIslah('closeBars')">🚫 قفل خمور</button><button onclick="doIslah('stopParties')">🚫 منع حفلات</button><button onclick="doIslah('rehab')">🏥 علاج إدمان</button><button onclick="doIslah('takaful')">🍞 تكافل</button><button onclick="doIslah('marriage')">💍 تزويج مهر بسيط</button></div>
+<button onclick="if(ideal>=75){stage=2;log('مجتمع مثالي - مناظرة سليمان');render()}else log('75%')" class=join>➡️ مناظرة</button>`;
+}
+else if(stage==2){
+if(debateIndex>=debates.length){stage=3;jailPressure=0;failedAttempts=0;log('هزم سليمان المداخلة - سجنوه');render();return;}
+let d=debates[debateIndex];
+a.innerHTML=`<div class=q>مناظرة العالم سليمان ${debateIndex+1}/4</div><div class=detail red><b>المدخلي:</b> ${d.q}</div><div class=detail gold><b>رد سليمان:</b><br>${d.opts.map((o,i)=>`<button class=wrong onclick="ans(${i})">${o}</button>`).join('')}</div><div class=detail style="font-size:10px;color:#aaa">${d.d}</div>`;
+}
+else if(stage==3){
+let fear="",pres="";
+if(jailPressure<30){fear="😰 لا شيء";pres="👑 الرئيس: اسجنوا سليمان";}
+else if(jailPressure<60){fear="😰 قلق: الشعب تجمع";pres="👑 اضربوهم";}
+else if(jailPressure<90){fear="😱 خايف من السقوط";pres="👑 حيقلبوني زي البشير؟";}
+else{fear="🤯 مرعوب: الشعب يقتحم";pres="👑 يبكي: أخرجوا سليمان واطلبوا العفو!";}
+a.innerHTML=`<div class=q>السجن - العالم سليمان في السجن - فشل ونجاح الشعب - خوف الرؤساء وطلب العفو وسجود شكر</div>
+<div style="background:#111;border:3px solid #555;padding:8px;border-radius:10px;text-align:center"><div style="font-size:28px">⛓️👳🏽 ${heroName}</div>ضغط: ${jailPressure}%<div class=bar><div class=fill style="width:${jailPressure}%;background:${jailPressure<60?'#ef4444':jailPressure<90?'#fbbf24':'#22c55e'}"></div></div><div style="color:#fbbf24">${fear}</div><div class=detail red>${pres}</div><div>فشل: ${failedAttempts}</div></div>
+<div><button onclick="attemptAction('demo')">✊ مظاهرة</button><button onclick="attemptAction('video')">📱 فيديو سليمان من السجن</button><button onclick="attemptAction('strike')">🏢 إضراب</button><button onclick="attemptAction('dua')">🤲 قنوت الحرمين</button></div>
+${jailPressure>=90?`<div class=detail style="background:#0a2a0a;border-color:#22c55e">
+<b>🎬 طلب العفو وإطلاق العالم سليمان - الإعلام يغطي بفرح:</b><br><br>
+👑 الرئيس جاء السجن 3 فجرا للعالم سليمان بيد مرتجفة: <i style="color:#fbbf24">"يا شيخ سليمان سامحني كنت خايف أسقط زي القذافي"</i><br><br>
+👳🏽 سليمان: <i>"أعفو لو تبت وحكمت بالعدل وأطلقت كل الشيوخ"</i><br><br>
+🎉 الباب اتفتح - الشعب يهتف الله أكبر - تكبيرات<br>
+👳🏽 العالم سليمان سجد لله شكرا في الأرض أمام السجن وبكى<br>
+👥 الشعب كله سجد وراه - آلاف ساجدين في الشارع<br><br>
+<b>📺 الإعلام - المذيعات متحجبات بفرح:</b><br>
+👩‍💼 مذيعة الجزيرة محجبة تبكي فرحا: <i>"الآن فك أسر الشيوخ - العالم سليمان حر!"</i><br>
+👩‍💼 مذيعة السودان محجبة بفرح: <i>"الشعب يبكي فرحا بعودة سليمان"</i><br>
+📹 كاميرات تجري لقاءات:<br>
+🎤 شاب: <i>"كنا في حفلات وخمور، الآن مع سليمان للصلاة"</i><br>
+🎤 أم: <i>"أولادنا رجعوا للمساجد"</i><br>
+🎤 الشيوخ المفرج عنهم يعانقون سليمان ويبكون<br><br>
+👳🏽 العالم سليمان في اللقاء يقول والدموع في عينه:<br>
+<div style="background:#000;border:2px solid #fbbf24;padding:10px;border-radius:8px;text-align:center;color:#fbbf24;font-size:14px;margin:8px 0">
+الفرح الكبير ليس بخروجي من السجن<br>الفرح الكبير هو بإعلاء كلمة<br><span style="font-size:20px">لا إله إلا الله محمد رسول الله ﷺ</span>
+</div>
+📢 الشعب يردد بفرح خلف سليمان:<br>
+<div style="background:#1a2a0a;padding:12px;border-radius:10px;text-align:center;font-size:17px;color:#22c55e;margin:8px 0;border:2px solid #22c55e;animation:pulse 1s infinite">
+🗣️ لا إله إلا الله محمد رسول الله بفرح<br>
+🗣️ لا إله إلا الله محمد رسول الله بفرح<br>
+🗣️ لا إله إلا الله محمد رسول الله بفرح<br>
+<small style="color:#fbbf24;font-size:11px">آلاف يرددون بفرح - الصوت يهز الأرض - يبكون فرحا</small>
+</div>
+👩‍💼 المذيعات المتحجبات يرددن بفرح: لا إله إلا الله محمد رسول الله<br>
+👳🏽 الشيوخ المفرج عنهم يرددون بفرح ودموع<br>
+👶 الأطفال يرددون بفرح<br>
+📢 سليمان: عفوت عنكم لكن احكموا بالعدل واعلوا كلمة التوحيد
+</div>`:''}`;
+}
+else if(stage==4){
+let html=`<div class=q>المرحلة 3: تحرير الدول - العالم سليمان يقود</div>`;
+islamicCountries.forEach((c,i)=>{
+if(c.freed) html+=`<div class=detail style="border-color:#22c55e;background:#0a2a0a">✅ ${c.name} تحررت!<br><small>${c.detail}</small></div>`;
+else if(c.name.includes("السودان")){
+html+=`<div class=detail red>
+<b>${c.name} - صراع الكيزان والعلمانيين والشعب يختار الإسلام</b><br><small>${c.detail}</small><br><br>
+🔴 حرامية كيزان (سرقوا): ${c.factions.kizanThieves}%<br>
+🟢 كيزان صالحين (ما سرقوا): ${c.factions.kizanGood}% - يبقوا<br>
+🔵 علمانيين: ${c.factions.almaniyin}%<br>
+🟡 الشعب اختار الإسلام النقي بقيادة سليمان: ${c.factions.islamChoice}%<div class=bar><div class=fill style="width:${c.factions.islamChoice}%;background:#22c55e"></div></div>
+<button onclick="chooseIslamSudan(${i})">📢 توعية: الشعب يختار الإسلام النقي لا كيزان ولا علمانية (+30)</button><br>
+<button onclick="punishThievesSudan(${i})" style="background:#fbbf24">⚖️ محاسبة الحرامية فقط 40% - عدل - استرجاع أموال (-25)</button><br>
+<small style="color:#22c55e">العدل: 40% حرامي يتحاسب، 60% صالح يبقى - ولا تزر وازرة وزر أخرى</small>
+</div>`;
+}else{
+html+=`<div class=detail red><b>${c.name} نفوذ ${c.inf}%</b><br><small>${c.detail}</small><br><button onclick="freeCountry(${i})">⚔️ حرر ${c.name} (-35)</button></div>`;
+}
+});
+let freed=islamicCountries.filter(c=>c.freed).length;
+html+=`<div class=detail gold>محرر ${freed}/${islamicCountries.length} - حرر 4 يتكون تحالف بقيادة سليمان</div><button onclick="if(freed>=4){stage=5;log('تحالف إسلامي بقيادة سليمان');render()}else log('حرر 4')" class=join>➡️ حرب فلسطين مراحل</button>`;
+a.innerHTML=html;
+}
+else if(stage==5){
+let wp=warPhases;
+let totalF= islamicCountries.filter(c=>c.freed).length;
+let nextJoin = islamicCountries.find(c=>c.freed && !wp.joinedCountries.includes(c.name));
+let html=`<div class=q>المرحلة 4: الحرب مراحل بقيادة العالم سليمان</div>
+<div class=nasheed>🎙️ نشيد الحرب: لبيك إسلام البطولة - بدون موسيقى - بصوت سليمان وطلابه<br><small>لبيك إسلام البطولة كلنا نفدى الحمى</small><br><small style="color:#fbbf24">بدون معازف - يرفع الإيمان</small></div>
+<div class=detail style="border-color:#22c55e;background:#0a1a0a"><b>قوة تحالف سليمان: ${wp.muslimPower} | مرحلة: ${wp.phase+1}/6 | منضم: ${wp.joinedCountries.length}/${totalF}</b><div class=bar><div class=fill style="width:${(wp.phase/6)*100}%;background:#22c55e"></div></div></div>
+<div class=detail><b>الدول المنضمة بقيادة سليمان:</b><br>${wp.joinedCountries.length==0?'<small>السودان سيبدأ بقيادة سليمان</small>':wp.joinedCountries.map(n=>`<span style="background:#22c55e;color:#000;padding:2px 6px;border-radius:5px;margin:2px;display:inline-block">✅ ${n} - شعبها خرج مليونية للجهاد خلف سليمان</span>`).join('')}${nextJoin?`<br><br><b>القادمة:</b> ${nextJoin.name}<br><small>${nextJoin.detail}</small>`:''}</div>
+<div class=detail gold><b>تحرك الشعب للجهاد خلف سليمان: ${wp.mobilization}%</b><div class=bar><div class=fill style="width:${wp.mobilization}%;background:#fbbf24"></div></div><button onclick="mobilizePeople()">📢 خطبة سليمان للجهاد (+15)</button><button onclick="mobilizePeople('video')">📱 مجازر غزة (+20)</button><button onclick="mobilizePeople('dua')">🤲 قنوت الحرمين (+25)</button><button onclick="mobilizePeople('donate')">💰 ذهب النساء (+10 قوة)</button></div>
+<div class=detail red><b>الجبهة: ${enemies[wp.currentEnemy]?enemies[wp.currentEnemy].name:''}</b><br>${enemies.map((e,i)=>`<div class=enemyBox style="opacity:${e.dead?0.3:1};border-color:${i==wp.currentEnemy?'#fbbf24':'#ef4444'}"><b>${e.name}</b><br>${e.power}<br>${e.dead?'☠️ سقط':'⚔️'}<br>${i==wp.currentEnemy?'<b>← الآن</b>':''}<br><button ${e.dead?'disabled':''} class=war onclick="attackEnemy(${e.id})">⚔️ هجوم سليمان</button></div>`).join('')}</div>
+<div><button class=war onclick="attackEnemy(enemies[warPhases.currentEnemy].id)">⚔️ هجوم تحالف سليمان ${wp.joinedCountries.length} دول - قوة ${wp.muslimPower}</button><button onclick="nextWarTurn()">⏭️ جولة</button></div>
+<div class=detail style="font-size:10px;color:#aaa"><b>قصة حرب سليمان:</b><br>${wp.logStory.slice(0,6).map(s=>`• ${s}`).join('<br>')||'لم تبدأ بعد'}</div>`;
+a.innerHTML=html;
+if(enemies.every(e=>e.dead) && wp.phase>=totalF){
+setTimeout(()=>{alert('🎉 الله أكبر! تمت نهضة الأمة بقيادة البطل العالم سليمان!\n\nمن باحث حديث في أم درمان إلى 10 طلاب في كل العالم حتى أمريكا وإسرائيل، إلى مجتمع مثالي، إلى مناظرة، إلى سجن وخوف رؤساء وطلب عفو وسجود سليمان والشعب، إلى المذيعات متحجبات بفرح وفك أسر الشيوخ ولقاءات والكل يردد بفرح لا إله إلا الله محمد رسول الله، إلى تحرير دول: السودان 40% حرامية يتحاسبوا و60% صالحين يبقوا - عدل - ثم حرب مراحل مع نشيد لبيك إسلام البطولة بدون موسيقى حتى تحرير الأقصى وسجود سليمان في الأقصى - تمت!'); location.reload();},600);
+}
+}
+}
+function searchSheikh(i){hadithSheikhs[i].found=true;ilm+=3;log(`🔍 ${heroName} وجد ${hadithSheikhs[i].name}`);render();}
+function listenSheikh(i){hadithSheikhs[i].listened++;ilm=Math.min(100,ilm+5);hujja+=2;log(`🎧 ${heroName} استمع ${hadithSheikhs[i].lesson} ثم رجع البيت`);render();}
+function readBook(i){let b=hadithBooks[i];if(b.read>=100)return;b.read+=25;ilm=Math.min(100,ilm+(b.ilm/4));hujja+=3;log(`📚 ${heroName} قرأ ${b.read}% ${b.name} مع شاي`);if(b.read>=100)log(`✅ ختم ${heroName} ${b.name}`);render();}
+function spreadDawah(t){if(t=='local'){worldSpread["🇸🇩 السودان"]+=50;followers+=80;hujja+=3;shaabia+=2;log('درس سليمان أم درمان 50');}if(t=='arab'){worldSpread["🇪🇬 مصر"]+=20;worldSpread["🇸🇦 السعودية"]+=20;worldSpread["🇹🇷 تركيا"]+=15;followers+=150;hujja+=5;log('بث عربي لسليمان');}if(t=='internet'){worldSpread["🌐 الإنترنت"]+=100;worldSpread["🇬🇧 بريطانيا"]+=10;followers+=250;shaabia+=5;log('يوتيوب سليمان مليون');}if(t=='enemy'){worldSpread["🇺🇸 أمريكا"]+=5;worldSpread["🇮🇱 إسرائيل"]+=2;followers+=30;hujja+=10;iman+=2;log('حتى العدو سمع سليمان سرا');}render();}
+function ans(i){let d=debates[debateIndex];if(i==d.c){hujja+=20;followers+=400;shaabia+=5;iman+=5;log('✅ صح: '+d.d);debateIndex++;}else{log('❌ خطأ: '+d.d);iman=Math.max(0,iman-5);}render();}
+function doIslah(t){let s=societyStats;if(t=='dawah'){s.prayer=Math.min(100,s.prayer+10);followers+=100;iman+=3;log('الفجر مليان بفضل سليمان');}if(t=='closeBars'){s.alcohol=Math.max(0,s.alcohol-15);s.drugs=Math.max(0,s.drugs-5);log('قفل خمور');}if(t=='stopParties'){s.parties=Math.max(0,s.parties-15);s.mixing=Math.max(0,s.mixing-15);log('منع حفلات');}if(t=='rehab'){s.drugs=Math.max(0,s.drugs-20);s.prayer=Math.min(100,s.prayer+5);log('علاج إدمان');}if(t=='takaful'){s.takaful=Math.min(100,s.takaful+15);s.marriage=Math.min(100,s.marriage+5);followers+=200;log('تكافل');}if(t=='marriage'){s.marriage=Math.min(100,s.marriage+20);s.mixing=Math.max(0,s.mixing-10);s.parties=Math.max(0,s.parties-10);log('زواج 20 شاب');}render();}
+function attemptAction(type){let chance=0;if(type=='demo')chance=40+shaabia+followers/200;if(type=='video')chance=50+hujja;if(type=='strike')chance=30+shaabia*1.5;if(type=='dua')chance=70+iman;let roll=Math.random()*100;if(roll<chance){if(type=='demo'){jailPressure+=15;followers+=150;shaabia+=5;log('✅ مظاهرة لسليمان نجحت');}if(type=='video'){jailPressure+=20;hujja+=10;log('✅ فيديو سليمان من السجن انتشر');}if(type=='strike'){jailPressure+=10;followers+=300;log('✅ إضراب');}if(type=='dua'){jailPressure+=25;iman+=5;log('✅ قنوت الحرمين لسليمان');}}else{failedAttempts++;followers=Math.max(10,followers-200);shaabia=Math.max(0,shaabia-10);jailPressure=Math.max(0,jailPressure-10);log(`❌ فشلت!`);if(failedAttempts>=3){iman+=10;hujja+=15;log('الفشل علمكم');}}if(jailPressure>=100){followers+=4000;shaabia=100;iman+=25;log(`🎉 الرئيس جاء 3 فجرا للعالم سليمان: سامحني - سليمان سجد شكرا والشعب سجد وراه - تمت`);stage=4;render();}else render();}
+function freeCountry(i){let c=islamicCountries[i];if(c.name.includes("السودان")){log('استخدم أزرار السودان الخاصة');return;}c.inf-=35;followers+=300;shaabia+=5;iman+=3;if(c.inf<=0){c.inf=0;c.freed=true;log(`✅ تحررت ${c.name} بقيادة سليمان!`);}else log(`${c.name} نفوذ ${c.inf}%`);render();}
+function chooseIslamSudan(i){
+let c=islamicCountries[i];if(!c.name.includes("السودان")) return;
+c.factions.almaniyin=Math.max(0,c.factions.almaniyin-15);
+c.factions.islamChoice+=30;
+log(`📢 الشعب يختار الإسلام خلف سليمان: علمانية ${c.factions.almaniyin}% -> إسلام ${c.factions.islamChoice}%`);
+if(c.factions.islamChoice>=60) log(`✅ الشعب اختار الإسلام! الآن محاسبة الحرامية فقط`);
+render();
+}
+function punishThievesSudan(i){
+let c=islamicCountries[i];if(!c.name.includes("السودان")) return;
+if(c.factions.islamChoice<60){log('لازم الشعب يختار الإسلام 60% أولا');return;}
+c.factions.kizanThieves=Math.max(0,c.factions.kizanThieves-25);
+log(`⚖️ محكمة عدل سليمان: محاسبة حرامي كوز - استرجاع أموال - باقي ${c.factions.kizanThieves}%`);
+if(c.factions.kizanThieves<=0){
+log(`✅ تمت محاسبة كل الحرامية 40% - الصالحين 60% بقوا - عدل لا ظلم`);
+c.inf=0;c.freed=true;
+log(`🎉 السودان تحرر! الشعب اختار الإسلام، حاسب الحرامية 40% فقط، وترك 60% صالحين - عدل إسلامي بقيادة سليمان`);
+}
+render();
+}
+function mobilizePeople(type='khutbah'){
+let wp=warPhases;
+if(type=='khutbah'){wp.mobilization+=15;log('📢 خطبة سليمان للأقصى - 100 ألف');}
+if(type=='video'){wp.mobilization+=20;wp.muslimPower+=5;log('📱 مجازر غزة');}
+if(type=='dua'){wp.mobilization+=25;iman+=3;log('🤲 قنوت الحرمين');}
+if(type=='donate'){wp.mobilization+=10;wp.muslimPower+=15;log('💰 ذهب النساء +15');}
+if(wp.mobilization>=100){
+let next=islamicCountries.find(c=>c.freed && !wp.joinedCountries.includes(c.name));
+if(next){wp.joinedCountries.push(next.name);wp.muslimPower+=80;wp.phase++;wp.mobilization=0;wp.logStory.unshift(`المرحلة ${wp.phase}: شعب ${next.name} مليونية خلف سليمان وانضم +80`);log(`✅ انضمت ${next.name}! قوة ${wp.muslimPower} - لبيك إسلام البطولة`);}
+}
+render();
+}
+function attackEnemy(id){
+let wp=warPhases;
+let e=enemies.find(x=>x.id==id);if(!e) e=enemies[wp.currentEnemy];if(!e||e.dead)return;
+let base=Math.floor(Math.random()*20+25);let bonus=Math.floor(wp.muslimPower/20)+Math.floor((iman+shaabia)/15);let dmg=base+bonus;let cnt=Math.floor(Math.random()*15+5);
+e.power-=dmg;wp.muslimPower-=cnt;if(wp.muslimPower<10) wp.muslimPower=10;
+log(`⚔️ تحالف سليمان ${wp.joinedCountries.length} دول هاجم ${e.name} ضرر ${dmg} - نشيد لبيك إسلام البطولة`);
+if(e.power<=0){e.power=0;e.dead=true;wp.muslimPower+=50;wp.logStory.unshift(`سقطت ${e.name} بقيادة سليمان!`);log(`☠️ سقطت ${e.name}! +50`);wp.currentEnemy++;let nextAlive=enemies.find(en=>!en.dead);if(nextAlive) wp.currentEnemy=enemies.indexOf(nextAlive);}
+render();
+}
+function nextWarTurn(){let wp=warPhases;turn++;let inc=0;enemies.forEach(e=>{if(!e.dead)inc+=Math.floor(Math.random()*12+8);});let red=Math.floor(inc*(100-iman)/100 * (100-wp.muslimPower/5)/100);wp.muslimPower-=red;if(wp.muslimPower<10) wp.muslimPower=10;log(`💥 هجوم الأعداء ${inc} صار ${red} - إيمان - الله ألقى الرعب`);iman=Math.min(100,iman+2);render();}
+render();log('ابدأ نهضة الأمة: البطل العالم سليمان - المذيعات متحجبات بفرح - الكل يردد لا إله إلا الله محمد رسول الله بفرح - 40% حرامية يتحاسبوا و60% صالحين يبقوا - إندونيسيا دولة إسلامية - نشيد لبيك إسلام البطولة بدون موسيقى - تمت');
+</script>
+</body>
+</html>
+
